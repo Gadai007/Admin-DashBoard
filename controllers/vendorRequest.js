@@ -21,13 +21,14 @@ const createVendorRequest = (req, res) => {
         const vendorRequest = await VendorRequest.create(fields)
 
         Object.entries(files).map(file => {
-            vendorRequest[file[0]] = file[1]
-            let oldPath = file[1].path
-            let newPath = path.join(__dirname, '/uploads/' + file[1].name)
-            let rawData = fs.readFileSync(oldPath)
-            fs.writeFile(newPath, rawData, function(err){ 
-                if(err) console.log(err) 
-            }) 
+            vendorRequest[file[0]] = file[1].path
+            // vendorRequest[file[0]] = file[1]
+            // let oldPath = file[1].path
+            // let newPath = path.join(__dirname, '/uploads/' + file[1].name)
+            // let rawData = fs.readFileSync(oldPath)
+            // fs.writeFile(newPath, rawData, function(err){ 
+            //     if(err) console.log(err) 
+            // }) 
         })
         await vendorRequest.save()
         res.status(200).json(vendorRequest)
