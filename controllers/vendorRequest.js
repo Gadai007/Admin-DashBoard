@@ -1,7 +1,7 @@
 const { VendorRequest } = require('../models/VendorRequest')
 const formidable = require('formidable')
-const path = require('path')
-const fs = require('fs')
+// const path = require('path')
+// const fs = require('fs')
 
 const createVendorRequest = (req, res) => {
     let form = new formidable.IncomingForm()
@@ -17,7 +17,7 @@ const createVendorRequest = (req, res) => {
                return res.status(400).json({ error: 'file size too large'})
             }
         })
-
+        fields.userId = req.profile.id
         const vendorRequest = await VendorRequest.create(fields)
 
         Object.entries(files).map(file => {
@@ -36,7 +36,7 @@ const createVendorRequest = (req, res) => {
 }
 
 const getVendorRequest = async (req, res) => {
-    const vendorRequests = await VendorRequest.findAll()
+    const vendorRequests = await VendorRequest.findAll({ where: {userId: req.profile.id}})
     if(vendorRequests){
         res.status(200).json(vendorRequests)
     }else{

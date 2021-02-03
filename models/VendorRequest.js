@@ -2,6 +2,8 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../database/connection");
 
+const { User } = require('../models/User')
+
 const VendorRequest = sequelize.define(
   "vendor_request",
   {
@@ -11,6 +13,7 @@ const VendorRequest = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
+    userId: Sequelize.DataTypes.INTEGER,
     one: Sequelize.DataTypes.STRING,
     two: Sequelize.DataTypes.STRING,
     companyCode: Sequelize.DataTypes.STRING,
@@ -33,5 +36,8 @@ const VendorRequest = sequelize.define(
   },
   { timestamps: true }
 );
+
+User.hasMany(VendorRequest)
+VendorRequest.belongsTo(User)
 
 module.exports = { VendorRequest };
